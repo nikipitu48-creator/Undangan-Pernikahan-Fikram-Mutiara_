@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Fikram & Mutiara | Wedding Invitation</title>
+
+  <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+  <!-- BACKGROUND -->
+
+  <div class="content-background"></div>
+
+  <canvas id="contentParticles"></canvas>
+
+
+  <!-- =========================
+       MUSIK
+  ========================== -->
+
+  <audio
+    id="bgMusic"
+    loop
+    preload="auto"
+  >
+
+    <source
+      src="song.mp3"
+      type="audio/mpeg"
+    >
+
+  </audio>
+
+
+  <button
+    id="musicButton"
+    onclick="toggleMusic()"
+    aria-label="Kontrol musik"
+  >
+    ▶
+  </button>
+
+
+  <!-- =========================
+       HERO
+  ========================== -->
+
+  <section class="hero">
+
+    <div class="hero-content">
+
+      <div class="hero-small-title">
+        The Wedding Of
+      </div>
+
+      <h1>Fikram</h1>
+
+      <div class="hero-amp">
+        &
+      </div>
+
+      <h1>Mutiara</h1>
+
+      <p class="hero-date">
+        Sabtu, 19 September 2026
+      </p>
+
+      <div class="scroll-hint">
+        SCROLL ↓
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       SAMBUTAN
+  ========================== -->
+
+  <section>
+
+    <div class="section-title">
+      Assalamu'alaikum
+    </div>
+
+    <div class="section-subtitle">
+      Warahmatullahi Wabarakatuh
+    </div>
+
+    <p class="quote">
+
+      "Dan di antara tanda-tanda kekuasaan-Nya
+      ialah Dia menciptakan untukmu pasangan-
+      pasangan dari jenismu sendiri, supaya kamu
+      cenderung dan merasa tenteram kepadanya,
+      dan dijadikan-Nya di antaramu rasa kasih
+      dan sayang."
+
+    </p>
+
+    <p class="ayat">
+      QS. Ar-Rum: 21
+    </p>
+
+  </section>
+
+
+  <!-- =========================
+       MEMPELAI
+  ========================== -->
+
+  <section>
+
+    <div class="section-title">
+      Mempelai
+    </div>
+
+    <div class="section-subtitle">
+      Bride & Groom
+    </div>
+
+    <div class="couple">
+
+      <div class="person">
+
+        <img
+          src="fikram123.jpg"
+          alt="Mempelai Pria"
+        >
+
+        <h3>
+          Fikram Sangadji
+        </h3>
+
+        <p>
+          Putra pertama dari
+          <br>
+          Bapak Arifin & Ibu Ninin Sangadji
+        </p>
+
+      </div>
+
+
+      <div class="couple-amp">
+        &
+      </div>
+
+
+      <div class="person">
+
+        <img
+          src="mutiara123.jpg"
+          alt="Mempelai Wanita"
+        >
+
+        <h3>
+          Mutiara Panca V
+        </h3>
+
+        <p>
+          Putri kelima dari
+          <br>
+          Alm. Bapak Selamat Riyadi & Ibu Teti Herawati
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       COUNTDOWN
+  ========================== -->
+
+  <section>
+
+    <div class="section-title">
+      Save The Date
+    </div>
+
+    <div class="section-subtitle">
+      Menuju Hari Bahagia
+    </div>
+
+    <p class="event-date">
+
+      Sabtu, 19 September 2026
+      <br>
+      Pukul 08.00 WIB
+
+    </p>
+
+
+    <div class="countdown">
+
+      <div class="count-box">
+        <div class="count-number" id="days">
+          00
+        </div>
+
+        <div class="count-label">
+          Hari
+        </div>
+      </div>
+
+
+      <div class="count-box">
+        <div class="count-number" id="hours">
+          00
+        </div>
+
+        <div class="count-label">
+          Jam
+        </div>
+      </div>
+
+
+      <div class="count-box">
+        <div class="count-number" id="minutes">
+          00
+        </div>
+
+        <div class="count-label">
+          Menit
+        </div>
+      </div>
+
+
+      <div class="count-box">
+        <div class="count-number" id="seconds">
+          00
+        </div>
+
+        <div class="count-label">
+          Detik
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       JADWAL ACARA
+  ========================== -->
+
+  <section>
+
+    <div class="section-title">
+      Jadwal Acara
+    </div>
+
+    <div class="section-subtitle">
+      Wedding Ceremony
+    </div>
+
+    <div class="event-card">
+
+      <div class="event-icon">
+        🕌
+      </div>
+
+      <h3>
+        Akad Nikah
+      </h3>
+
+      <p>
+        Sabtu, 19 September 2026
+      </p>
+
+      <p>
+        08.00 WIB - Selesai
+      </p>
+
+      <p>
+        Tempat acara
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       LOKASI
+  ========================== -->
+
+  <section>
+
+    <div class="section-title">
+      Lokasi
+    </div>
+
+    <div class="section-subtitle">
+      Wedding Venue
+    </div>
+
+    <div class="location-card">
+
+      <h3>
+        Jalan Abdullah, RT 11 RW 03 No.41
+      </h3>
+
+      <p class="location-text">
+
+        Desa Cilimus Kab. Kuningan
+        <br>
+        Jawa Barat
+
+      </p>
+
+      <iframe
+        class="map"
+        src="https://www.google.com/maps?q=-6.8707422,108.4998893&output=embed"
+        loading="lazy"
+        allowfullscreen>
+      </iframe>
+
+      <a
+        class="map-btn"
+        href="https://maps.app.goo.gl/mc18KReeratvRH3F9"
+        target="_blank"
+        rel="noopener"
+      >
+        📍 Buka Google Maps
+      </a>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       STORY
+  ========================== -->
+
+  <section>
+
+    <div class="section-title">
+      Our Story
+    </div>
+
+    <div class="section-subtitle">
+      Perjalanan Cinta Kami
+    </div>
+
+    <div class="story">
+
+      <div class="story-item">
+
+        <p>
+          • Kami percaya, tidak ada pertemuan yang benar-benar kebetulan.
+          Kami dipertemukan dalam lingkungan sekolah yang sama, namun tidak
+          ada yang spesial di antara kami. Sampai akhirnya setelah tiga tahun
+          lulus kami kembali berkomunikasi.
+        </p>
+
+        <p>
+          • Tidak semua awal perlu diceritakan panjang, karena yang bertahan
+          akan selalu menemukan jalannya.
+        </p>
+
+        <p>
+          • Bukan karena semuanya sempurna, melainkan karena kami terus belajar
+          untuk tumbuh bersama.
+        </p>
+
+        <p>
+          • Kami menjalani hubungan yang tidak mudah, 1001 kali kami saling
+          memaafkan, menerima kembali dan saling mencari jalan untuk tetap
+          bersama. Bagaimanapun badainya.
+        </p>
+
+        <p>
+          • Hingga pada waktunya, segala yang telah kami lalui bermuara pada
+          satu keputusan yang sama.
+        </p>
+
+        <p>
+          • Semoga perjalanan ini selalu dipenuhi rasa syukur dan ketenangan
+          serta dipelihara dalam kebaikan yang panjang.
+        </p>
+
+        <p>
+          • Terima kasih untuk segala kerja sama, usaha dan upaya untuk kita
+          bisa sampai di titik ini.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       GALLERY
+  ========================== -->
+
+  <section>
+
+    <div class="section-title">
+      Gallery
+    </div>
+
+    <div class="section-subtitle">
+      Our Beautiful Moments
+    </div>
+
+    <div class="gallery">
+
+      <img src="1.jpg" alt="Foto 1">
+
+      <img src="2.jpg" alt="Foto 2">
+
+      <img src="3.jpg" alt="Foto 3">
+
+      <img src="5.jpg" alt="Foto 4">
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       UCAPAN & KEHADIRAN
+  ========================== -->
+
+  <section>
+
+    <div class="section-title">
+      Ucapan & Doa
+    </div>
+
+    <div class="section-subtitle">
+      Konfirmasi Kehadiran
+    </div>
+
+
+    <form
+      class="wish-form"
+      onsubmit="sendWish(event)"
+    >
+
+      <input
+        type="text"
+        id="wishName"
+        placeholder="Nama Anda"
+        autocomplete="name"
+        required
+      >
+
+
+      <div class="attendance-title">
+        Konfirmasi Kehadiran
+      </div>
+
+
+      <div class="attendance-options">
+
+        <label class="attendance-option">
+
+          <input
+            type="radio"
+            name="attendance"
+            value="Hadir"
+            required
+          >
+
+          <span>
+            ✓ Hadir
+          </span>
+
+        </label>
+
+
+        <label class="attendance-option">
+
+          <input
+            type="radio"
+            name="attendance"
+            value="Berhalangan Hadir"
+          >
+
+          <span>
+            ✕ Berhalangan Hadir
+          </span>
+
+        </label>
+
+
+        <label class="attendance-option">
+
+          <input
+            type="radio"
+            name="attendance"
+            value="Belum Tahu"
+          >
+
+          <span>
+            ? Belum Tahu
+          </span>
+
+        </label>
+
+      </div>
+
+
+      <textarea
+        id="wishMessage"
+        rows="4"
+        placeholder="Tulis ucapan & doa..."
+        required
+      ></textarea>
+
+
+      <button type="submit">
+        KIRIM UCAPAN
+      </button>
+
+    </form>
+
+
+
+
+    <!-- =========================
+         DAFTAR UCAPAN
+    ========================== -->
+
+    <div class="wish-container">
+
+  <div class="wish-heading">
+    Ucapan dari Tamu
+  </div>
+
+  <div
+    class="wish-list"
+    id="wishList"
+  ></div>
+
+  <button
+    type="button"
+    id="showAllWishes"
+    class="show-all-wishes"
+    onclick="toggleAllWishes()"
+    style="display: none;"
+  >
+    Tampilkan Semua Ucapan
+  </button>
+
+    </div>
+
+  <!-- =========================
+       AMPLOP DIGITAL
+  ========================== -->
+
+  <section>
+
+    <div class="section-title">
+      Amplop Digital
+    </div>
+
+    <div class="section-subtitle">
+      Tanda Kasih
+    </div>
+
+
+    <div class="gift-card">
+
+      <div class="gift-icon">
+        💌
+      </div>
+
+      <h3>
+        Doa & Restu Anda
+      </h3>
+
+      <p>
+        Kehadiran dan doa Anda
+        merupakan hadiah terindah
+        bagi kami.
+      </p>
+
+
+      <div class="bank">
+
+        <div class="bank-name">
+          BANK BCA
+        </div>
+
+        <div
+          class="account"
+          id="accountNumber"
+        >
+          6871788208
+        </div>
+
+        <p>
+          a.n. Mutiara Panca Vrilliant
+        </p>
+
+
+        <button
+          type="button"
+          class="copy-btn"
+          onclick="copyAccount()"
+        >
+          📋 Salin Nomor Rekening
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       FOOTER
+  ========================== -->
+
+  <footer>
+
+    <p>
+      Terima kasih atas doa,
+      restu dan kehadiran Anda.
+    </p>
+
+    <br>
+
+    <p>
+      Fikram & Mutiara
+    </p>
+
+    <br>
+
+    <span class="heart">
+      ♥
+    </span>
+
+    <br><br>
+
+    © 2026 Fikram & Mutiara
+
+  </footer>
+
+
+  <script src="script.js"></script>
+
+</body>
+
+</html>
