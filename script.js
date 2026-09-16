@@ -1,7 +1,8 @@
 /* =========================================================
-   FIKRAM & MUTIARA — OFFLINE VERSION LENGKAP
-   ✅ SEMUA DATA UCAPAN SUDAH DIMASUKIN!
-   ✅ TIDAK PERLU SHEETDB LAGI! 100% JALAN SAMPAI 19!
+   FIKRAM & MUTIARA — VERSI SEMUA BISA LIHAT SEMUA UCAPAN
+   ✅ DATA LAMA TETAP ADA
+   ✅ UCAPAN BARU TAMU BISA DILIHAT SEMUA ORANG
+   ✅ TIDAK PERLU SHEETDB!
 ========================================================= */
 
 const WEDDING_CONFIG = {
@@ -11,9 +12,9 @@ const WEDDING_CONFIG = {
 };
 
 // =========================================================
-// 📌 SEMUA DATA UCAPAN — LENGKAP 25+ DATA!
+// 📌 DATA AWAL — SEMUA UCAPAN YANG SUDAH ADA
 // =========================================================
-const LOCAL_WISHES = [
+const BASE_WISHES = [
   {"Timestamp":"1/9/2026, 11.31.56","Nama":"Teh sisca","Konfirmasi Kehadiran ":"Hadir","Ucapan ":"Selamat ya tiara...smga skinah mwadaah wromhmah yah..langgeng trs selamanyaaa....."},
   {"Timestamp":"1/9/2026, 11.34.48","Nama":"Etty Arsyad & Mimih Dzaenab","Konfirmasi Kehadiran ":"Hadir","Ucapan ":"Bismillah... selamat menempuh hidup baru Fikram dan Mutiara, semoga samawa dan diberi keturunan anak anak yg sholeh dan Sholeha, penikahan nya sampai kakek nenek dan bertemu lagi di jannah nya Allah... Aamiin"},
   {"Timestamp":"2/9/2026, 09.55.43","Nama":"Fany Ulfayani","Konfirmasi Kehadiran ":"Hadir","Ucapan ":"Semoga menjadi keluarga sakinah, mawaddah, warrahmah, berkah, rezeki melimpah ruah, aamiin 🤲🥰"},
@@ -42,7 +43,32 @@ const LOCAL_WISHES = [
 ];
 
 // =========================================================
-// NAMA TAMU
+// PENYIMPANAN DATA BERSAMA
+// =========================================================
+function getAllWishes() {
+  const shared = localStorage.getItem("sharedWishes");
+  const sharedData = shared ? JSON.parse(shared) : [];
+  return [...BASE_WISHES, ...sharedData];
+}
+
+function addSharedWish(newWish) {
+  const shared = localStorage.getItem("sharedWishes");
+  let sharedData = shared ? JSON.parse(shared) : [];
+  
+  // Cek duplikat
+  const exists = sharedData.some(w => 
+    w["Nama"] === newWish["Nama"] && 
+    w["Timestamp"] === newWish["Timestamp"]
+  );
+  
+  if (!exists) {
+    sharedData.push(newWish);
+    localStorage.setItem("sharedWishes", JSON.stringify(sharedData));
+  }
+}
+
+// =========================================================
+// NAMA TAMU & PARTIKEL & MUSIK & COUNTDOWN
 // =========================================================
 function getGuestName() {
   const p = new URLSearchParams(window.location.search);
@@ -53,9 +79,6 @@ function showGuestName() {
   if (el) el.textContent = getGuestName();
 }
 
-// =========================================================
-// BUKA UNDANGAN
-// =========================================================
 function openInvitation() {
   const lobby = document.getElementById("lobby");
   if (!lobby) return;
@@ -63,9 +86,6 @@ function openInvitation() {
   setTimeout(() => window.location.href = "isii.html" + window.location.search, 800);
 }
 
-// =========================================================
-// PARTIKEL
-// =========================================================
 function createParticles(canvasId) {
   const canvas = document.getElementById(canvasId);
   if (!canvas) return;
@@ -97,9 +117,6 @@ function createParticles(canvasId) {
 createParticles("lobbyParticles");
 createParticles("contentParticles");
 
-// =========================================================
-// MUSIK
-// =========================================================
 const music = document.getElementById("bgMusic");
 const musicBtn = document.getElementById("musicButton");
 function toggleMusic() {
@@ -113,9 +130,6 @@ function toggleMusic() {
   }
 }
 
-// =========================================================
-// COUNTDOWN
-// =========================================================
 function updateCountdown() {
   const t = new Date(WEDDING_CONFIG.eventDate).getTime();
   const d = t - Date.now();
@@ -140,15 +154,7 @@ function escapeHTML(v) {
 }
 
 // =========================================================
-// ✅ AMBIL DATA — DARI KODE + DATA BARU DARI TAMU
-// =========================================================
-function getWishes() {
-  const saved = JSON.parse(localStorage.getItem("newWishes") || "[]");
-  return [...LOCAL_WISHES, ...saved];
-}
-
-// =========================================================
-// ✅ KIRIM UCAPAN — DISIMPAN DI HP TAMU
+// ✅ KIRIM UCAPAN
 // =========================================================
 function sendWish(e) {
   e.preventDefault();
@@ -172,10 +178,8 @@ function sendWish(e) {
     "Ucapan ": msg
   };
 
-  const saved = JSON.parse(localStorage.getItem("newWishes") || "[]");
-  saved.push(newWish);
-  localStorage.setItem("newWishes", JSON.stringify(saved));
-
+  addSharedWish(newWish);
+  
   alert("✅ Terima kasih! Ucapan tersimpan ❤️");
   form.reset();
   tampilkanUcapan();
@@ -184,7 +188,7 @@ function sendWish(e) {
 }
 
 // =========================================================
-// ✅ TAMPILKAN UCAPAN
+// ✅ TAMPILKAN SEMUA UCAPAN
 // =========================================================
 let showAll = false;
 
@@ -193,7 +197,7 @@ function tampilkanUcapan() {
   if (!list) return;
   list.innerHTML = "";
 
-  const wishes = getWishes();
+  const wishes = getAllWishes();
 
   if (wishes.length === 0) {
     list.innerHTML = `<div class="empty-wish">Belum ada ucapan 🤍</div>`;
@@ -224,9 +228,6 @@ function tampilkanUcapan() {
   }
 }
 
-// =========================================================
-// SALIN REKENING
-// =========================================================
 function copyAccount() {
   const el = document.getElementById("accountNumber");
   if (!el) return;
@@ -239,9 +240,6 @@ function copyAccount() {
   }
 }
 
-// =========================================================
-// JALANKAN
-// =========================================================
 document.addEventListener("DOMContentLoaded", () => {
   showGuestName();
   if (document.getElementById("wishList")) tampilkanUcapan();
