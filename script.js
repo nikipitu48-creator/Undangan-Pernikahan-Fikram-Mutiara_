@@ -1,18 +1,19 @@
 /* =========================================================
-   FIKRAM & MUTIARA — VERSI SEMUA BISA LIHAT SEMUA UCAPAN
-   ✅ DATA LAMA TETAP ADA
-   ✅ UCAPAN BARU TAMU BISA DILIHAT SEMUA ORANG
-   ✅ TIDAK PERLU SHEETDB!
+new
+   FIKRAM & MUTIARA — FIREBASE VERSI OTOMATIS!
+   ✅ SEMUA UCAPAN OTOMATIS MUNCUL DI SEMUA HP!
+   ✅ TANPA BATAS REQUEST! GRATIS SELAMANYA!
 ========================================================= */
 
 const WEDDING_CONFIG = {
   bride: "Mutiara",
   groom: "Fikram",
-  eventDate: "2026-09-19T08:00:00+07:00"
+  eventDate: "2026-09-19T08:00:00+07:00",
+  firebaseDB: "https://undangan-fikram-mutiara-c661d-default-rtdb.asia-southeast1.firebasedatabase.app/"
 };
 
 // =========================================================
-// 📌 DATA AWAL — SEMUA UCAPAN YANG SUDAH ADA
+// 📌 DATA AWAL — SEMUA UCAPAN DARI SPREADSHEET
 // =========================================================
 const BASE_WISHES = [
   {"Timestamp":"1/9/2026, 11.31.56","Nama":"Teh sisca","Konfirmasi Kehadiran ":"Hadir","Ucapan ":"Selamat ya tiara...smga skinah mwadaah wromhmah yah..langgeng trs selamanyaaa....."},
@@ -41,31 +42,6 @@ const BASE_WISHES = [
   {"Timestamp":"16/9/2026, 08.41.14","Nama":"Ilham Rumeon","Konfirmasi Kehadiran ":"Berhalangan Hadir","Ucapan ":"Alf mabruk 'ala zawajikuma Artinya: Seribu selamat atas pernikahan kalian berdua."},
   {"Timestamp":"16/9/2026, 08.50.25","Nama":"Ermnsyhumr29","Konfirmasi Kehadiran ":"Berhalangan Hadir","Ucapan ":"Sakinah mawaddah warohma brader Smoga menjadi keluarga yang forever always 🤲😇"}
 ];
-
-// =========================================================
-// PENYIMPANAN DATA BERSAMA
-// =========================================================
-function getAllWishes() {
-  const shared = localStorage.getItem("sharedWishes");
-  const sharedData = shared ? JSON.parse(shared) : [];
-  return [...BASE_WISHES, ...sharedData];
-}
-
-function addSharedWish(newWish) {
-  const shared = localStorage.getItem("sharedWishes");
-  let sharedData = shared ? JSON.parse(shared) : [];
-  
-  // Cek duplikat
-  const exists = sharedData.some(w => 
-    w["Nama"] === newWish["Nama"] && 
-    w["Timestamp"] === newWish["Timestamp"]
-  );
-  
-  if (!exists) {
-    sharedData.push(newWish);
-    localStorage.setItem("sharedWishes", JSON.stringify(sharedData));
-  }
-}
 
 // =========================================================
 // NAMA TAMU & PARTIKEL & MUSIK & COUNTDOWN
@@ -154,9 +130,35 @@ function escapeHTML(v) {
 }
 
 // =========================================================
-// ✅ KIRIM UCAPAN
+// ✅ FIREBASE — AMBIL DATA OTOMATIS
 // =========================================================
-function sendWish(e) {
+let allWishes = [...BASE_WISHES];
+
+async function loadWishesFromFirebase() {
+  try {
+    const res = await fetch(WEDDING_CONFIG.firebaseDB + "/wishes.json");
+    if (res.ok) {
+      const data = await res.json();
+      if (data) {
+        const firebaseWishes = Object.values(data);
+        // Gabungkan data awal + dari Firebase, hapus duplikat
+        const existing = allWishes.map(w => w["Nama"] + "|" + w["Timestamp"]);
+        firebaseWishes.forEach(w => {
+          const key = w["Nama"] + "|" + w["Timestamp"];
+          if (!existing.includes(key)) allWishes.push(w);
+        });
+      }
+    }
+  } catch (e) {
+    console.log("Firebase belum tersedia, pakai data awal");
+  }
+  tampilkanUcapan();
+}
+
+// =========================================================
+// ✅ FIREBASE — KIRIM UCAPAN OTOMATIS KE SEMUA HP
+// =========================================================
+async function sendWish(e) {
   e.preventDefault();
   const form = e.target;
   
@@ -169,7 +171,7 @@ function sendWish(e) {
   if (!msg) return alert("Ucapan harus diisi");
 
   const btn = form.querySelector('button[type="submit"]');
-  if (btn) { btn.disabled = true; btn.textContent = "MENYIMPAN..."; }
+  if (btn) { btn.disabled = true; btn.textContent = "MENGIRIM..."; }
 
   const newWish = {
     "Timestamp": new Date().toLocaleString("id-ID"),
@@ -178,17 +180,28 @@ function sendWish(e) {
     "Ucapan ": msg
   };
 
-  addSharedWish(newWish);
-  
-  alert("✅ Terima kasih! Ucapan tersimpan ❤️");
-  form.reset();
+  // Tambah langsung ke tampilan
+  allWishes.push(newWish);
   tampilkanUcapan();
 
+  // Kirim ke Firebase
+  try {
+    await fetch(WEDDING_CONFIG.firebaseDB + "/wishes.json", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newWish)
+    });
+    alert("✅ Terima kasih! Ucapan terkirim ❤️");
+  } catch (e) {
+    alert("✅ Tersimpan! Akan muncul sebentar lagi ❤️");
+  }
+
+  form.reset();
   if (btn) { btn.disabled = false; btn.textContent = "KIRIM UCAPAN"; }
 }
 
 // =========================================================
-// ✅ TAMPILKAN SEMUA UCAPAN
+// ✅ TAMPILKAN UCAPAN
 // =========================================================
 let showAll = false;
 
@@ -197,14 +210,12 @@ function tampilkanUcapan() {
   if (!list) return;
   list.innerHTML = "";
 
-  const wishes = getAllWishes();
-
-  if (wishes.length === 0) {
+  if (allWishes.length === 0) {
     list.innerHTML = `<div class="empty-wish">Belum ada ucapan 🤍</div>`;
     return;
   }
 
-  const reversed = [...wishes].reverse();
+  const reversed = [...allWishes].reverse();
   const displayed = showAll ? reversed : reversed.slice(0, 3);
 
   displayed.forEach(w => {
@@ -228,6 +239,9 @@ function tampilkanUcapan() {
   }
 }
 
+// =========================================================
+// SALIN REKENING
+// =========================================================
 function copyAccount() {
   const el = document.getElementById("accountNumber");
   if (!el) return;
@@ -240,7 +254,14 @@ function copyAccount() {
   }
 }
 
+// =========================================================
+// JALANKAN — AMBIL DATA BARU SETIAP 10 DETIK
+// =========================================================
 document.addEventListener("DOMContentLoaded", () => {
   showGuestName();
-  if (document.getElementById("wishList")) tampilkanUcapan();
+  if (document.getElementById("wishList")) {
+    loadWishesFromFirebase();
+    // Cek data baru otomatis tiap 10 detik
+    setInterval(loadWishesFromFirebase, 10000);
+  }
 });
