@@ -1,31 +1,48 @@
 /* =========================================================
-   FIKRAM & MUTIARA — VERSI DARURAT SAMPAI 19 SEPTEMBER
-   ✅ TAMPILKAN DATA DARI CACHE WALAU SHEETDB ERROR
-   ✅ KIRIM DATA TETAP BISA (antri sampai limit reset)
+   FIKRAM & MUTIARA — OFFLINE VERSION LENGKAP
+   ✅ SEMUA DATA UCAPAN SUDAH DIMASUKIN!
+   ✅ TIDAK PERLU SHEETDB LAGI! 100% JALAN SAMPAI 19!
 ========================================================= */
 
 const WEDDING_CONFIG = {
   bride: "Mutiara",
   groom: "Fikram",
-  eventDate: "2026-09-19T08:00:00+07:00",
-  sheetDB: "https://sheetdb.io/api/v1/3xl1byibvp4iu"
+  eventDate: "2026-09-19T08:00:00+07:00"
 };
 
 // =========================================================
-// SISTEM PENYIMPANAN LOKAL — DATA TIDAK HILANG!
+// 📌 SEMUA DATA UCAPAN — LENGKAP 25+ DATA!
 // =========================================================
-function saveToLocal(data) {
-  localStorage.setItem("wishesData", JSON.stringify(data));
-  localStorage.setItem("wishesTime", Date.now().toString());
-}
-
-function getFromLocal() {
-  const d = localStorage.getItem("wishesData");
-  return d ? JSON.parse(d) : null;
-}
+const LOCAL_WISHES = [
+  {"Timestamp":"1/9/2026, 11.31.56","Nama":"Teh sisca","Konfirmasi Kehadiran ":"Hadir","Ucapan ":"Selamat ya tiara...smga skinah mwadaah wromhmah yah..langgeng trs selamanyaaa....."},
+  {"Timestamp":"1/9/2026, 11.34.48","Nama":"Etty Arsyad & Mimih Dzaenab","Konfirmasi Kehadiran ":"Hadir","Ucapan ":"Bismillah... selamat menempuh hidup baru Fikram dan Mutiara, semoga samawa dan diberi keturunan anak anak yg sholeh dan Sholeha, penikahan nya sampai kakek nenek dan bertemu lagi di jannah nya Allah... Aamiin"},
+  {"Timestamp":"2/9/2026, 09.55.43","Nama":"Fany Ulfayani","Konfirmasi Kehadiran ":"Hadir","Ucapan ":"Semoga menjadi keluarga sakinah, mawaddah, warrahmah, berkah, rezeki melimpah ruah, aamiin 🤲🥰"},
+  {"Timestamp":"2/9/2026, 09.57.08","Nama":"Henny Kurnia Asih","Konfirmasi Kehadiran ":"Hadir","Ucapan ":"Selamat menempuh hidup baru ya cantik,smga lanCar sampai hari H,samawa selama nya jd lah keluarga bahagia dunia kahirat.doa trbaik dr yg paling baik😘😘😘"},
+  {"Timestamp":"2/9/2026, 10.17.36","Nama":"Lilis","Konfirmasi Kehadiran ":"Hadir","Ucapan ":"Barakallah sakinah mawadah warahmah cantik., semoga di lancar kan sampai hari H yah.,"},
+  {"Timestamp":"3/9/2026, 21.14.03","Nama":"Dewi anggraenj","Konfirmasi Kehadiran ":"Berhalangan Hadir","Ucapan ":"Wah, congratulations.. Sepupuh ak yg cantik. Semoga samawa ya. Doa yg trbaik u trcanik🥰"},
+  {"Timestamp":"3/9/2026, 21.31.50","Nama":"Totink Gaul","Konfirmasi Kehadiran ":"Hadir","Ucapan ":"Selamat menempuh hidup baru untuk kalian berdua 🤍 Semoga pernikahan ini menjadi awal dari perjalanan panjang yang penuh kebahagiaan, keberkahan, dan ketenangan. Semoga kalian selalu diberi kesabaran untuk saling memahami, kekuatan untuk melewati setiap ujian, dan hati yang tetap memilih satu sama lain dalam keadaan apa pun. Semoga rumah tangga kalian selalu dipenuhi cinta, rezeki yang cukup, kesehatan, dan kebersamaan yang semakin hari semakin erat. Selamat menjadi keluarga. Semoga cinta yang hari ini kalian rayakan, terus tumbuh sampai tua nanti. 🤲🏻💐 Dk imam"},
+  {"Timestamp":"12/9/2026, 09.01.04","Nama":"Mfeb","Konfirmasi Kehadiran ":"Berhalangan Hadir","Ucapan ":"Happy wedding mutt, semoga sakinah mawaddah warahmah aamiin bahagia selalu ya🫶🏻"},
+  {"Timestamp":"12/9/2026, 11.08.15","Nama":"Putri Filmas Kadtabalubun","Konfirmasi Kehadiran ":"Berhalangan Hadir","Ucapan ":"Selamat menempuh hidup baru Mut, bahagia sllu❤"},
+  {"Timestamp":"12/9/2026, 10.10.06","Nama":"Putri Adeliaa","Konfirmasi Kehadiran ":"Berhalangan Hadir","Ucapan ":"Happy wedding teh mutii💍 akhirnya penantiannya berlabuh jugaa, semoga lancar sampai hari H nya yaaa, selamat menempuh hidup baru cantikk🤍🤍🤍🌸"},
+  {"Timestamp":"12/9/2026, 11.13.40","Nama":"Sarifadila","Konfirmasi Kehadiran ":"Berhalangan Hadir","Ucapan ":"MasyaAllah selamat beb lancar luncur smpai hari H-nya 🫶"},
+  {"Timestamp":"12/9/2026, 11.25.40","Nama":"K fikar","Konfirmasi Kehadiran ":"Berhalangan Hadir","Ucapan ":"Wah selamat ade.. Semoga dilancarkan sampai dengan waktunya.. Semoga menjadi keluarga yang sakinah mawadah warahmah.. Maaf yah kk tdk bsa hadir.."},
+  {"Timestamp":"12/9/2026, 11.30.16","Nama":"YOGI","Konfirmasi Kehadiran ":"Belum Tahu","Ucapan ":"Semoga menjadi keluarga yang sakinah mawadah warahmah"},
+  {"Timestamp":"12/9/2026, 10.31.15","Nama":"Sella Tri","Konfirmasi Kehadiran ":"Hadir","Ucapan ":"Selamat menjalani ibadah terpanjang Bey, semoga setiap langkah yang kalian ambil selalu diberi kemudahan dan kelancaran 🤗💞"},
+  {"Timestamp":"12/9/2026, 16.29.14","Nama":"Aa wawan bgr","Konfirmasi Kehadiran ":"Berhalangan Hadir","Ucapan ":"Selamat menenpuh hidup baru @ tiara & fikram, dan dilancarkan acaranya, semoga kalian berdua sakinah mawadah warrohmah. Aamiinn yaa rabb."},
+  {"Timestamp":"13/9/2026, 15.19.22","Nama":"FAHMI MATDOAN","Konfirmasi Kehadiran ":"Berhalangan Hadir","Ucapan ":"Semoga kedepan menjadi keluarga yang cemara, dan di lancarkan rezekinya, amin🙏"},
+  {"Timestamp":"13/9/2026, 15.32.31","Nama":"Yusuf","Konfirmasi Kehadiran ":"Berhalangan Hadir","Ucapan ":"Barakallah bahagia dunia akhirat"},
+  {"Timestamp":"13/9/2026, 15.57.20","Nama":"Uchit selang pelu","Konfirmasi Kehadiran ":"Berhalangan Hadir","Ucapan ":"Selamat menempuh hidup baru kawan Semoga rumah tangga sakinah mawadah warahmah aminnnn"},
+  {"Timestamp":"13/9/2026, 20.46.55","Nama":"Aidi Rahanjamtel","Konfirmasi Kehadiran ":"Berhalangan Hadir","Ucapan ":"Assalamu'alaikum warahmatullahi wabarokatuh kawan, Beta pikir awalnya di Ambon padahal di Jawa ee, maaf bt blom bisa hadir lagi kuliah ni, bt doa saja ee kawan, semoga dipermudah 🤲🏻, dan keluarga diberikan keberkahan rumah tangga sakinah mawadah warohmah... barokallah untuk 2 teman seperjuangan waktu sekolah Dulu, Fikram dan Tiara...🙏🏻😊 Wassalamu'alaikum warahmatullahi wabarokatuh"},
+  {"Timestamp":"14/9/2026, 20.27.19","Nama":"Mita Ode","Konfirmasi Kehadiran ":"Berhalangan Hadir","Ucapan ":"Semoga lancar sampai hari H dan semoga jadi pasangan yg SAKINA MAWADAH WARIHMA, SEMOGA JUGA CEPT DPT MOMONGAN AamiinBaku syg tarus e ade fikram dan istri 🙏Langgeng sampai oma opa. 🥰😇😇"},
+  {"Timestamp":"15/9/2026, 15.59.25","Nama":"Fadila","Konfirmasi Kehadiran ":"Berhalangan Hadir","Ucapan ":"Lancar sampai hari H ya Ara, maaf yah belum sempat hadir di acara bahagianya🫂🤍"},
+  {"Timestamp":"16/9/2026, 08.33.34","Nama":"ANSHAR ASY'ARI","Konfirmasi Kehadiran ":"Berhalangan Hadir","Ucapan ":"Selamat Menempuh hidup yang Baru Saudara semoga menjadi keluarga yang sakinah mawadah warahmah dunia akhirat insyaallah Aminn🤲🙏"},
+  {"Timestamp":"16/9/2026, 08.38.43","Nama":"Peri Fadli","Konfirmasi Kehadiran ":"Hadir","Ucapan ":"Selamat berbahagi kawan semoga sakina mawaddah warohmaaa🙏🙏🙏"},
+  {"Timestamp":"16/9/2026, 08.41.14","Nama":"Ilham Rumeon","Konfirmasi Kehadiran ":"Berhalangan Hadir","Ucapan ":"Alf mabruk 'ala zawajikuma Artinya: Seribu selamat atas pernikahan kalian berdua."},
+  {"Timestamp":"16/9/2026, 08.50.25","Nama":"Ermnsyhumr29","Konfirmasi Kehadiran ":"Berhalangan Hadir","Ucapan ":"Sakinah mawaddah warohma brader Smoga menjadi keluarga yang forever always 🤲😇"}
+];
 
 // =========================================================
-// NAMA TAMU & PARTIKEL & MUSIK & COUNTDOWN
+// NAMA TAMU
 // =========================================================
 function getGuestName() {
   const p = new URLSearchParams(window.location.search);
@@ -36,6 +53,9 @@ function showGuestName() {
   if (el) el.textContent = getGuestName();
 }
 
+// =========================================================
+// BUKA UNDANGAN
+// =========================================================
 function openInvitation() {
   const lobby = document.getElementById("lobby");
   if (!lobby) return;
@@ -43,6 +63,9 @@ function openInvitation() {
   setTimeout(() => window.location.href = "isii.html" + window.location.search, 800);
 }
 
+// =========================================================
+// PARTIKEL
+// =========================================================
 function createParticles(canvasId) {
   const canvas = document.getElementById(canvasId);
   if (!canvas) return;
@@ -74,17 +97,29 @@ function createParticles(canvasId) {
 createParticles("lobbyParticles");
 createParticles("contentParticles");
 
+// =========================================================
+// MUSIK
+// =========================================================
 const music = document.getElementById("bgMusic");
 const musicBtn = document.getElementById("musicButton");
 function toggleMusic() {
   if (!music) return;
-  music.paused ? music.play().then(()=>musicBtn&&(musicBtn.textContent="❚❚")) : (music.pause(), musicBtn&&(musicBtn.textContent="▶"));
+  if (music.paused) {
+    music.play().then(() => { if (musicBtn) musicBtn.textContent = "❚❚"; });
+    if (musicBtn) musicBtn.textContent = "❚❚";
+  } else {
+    music.pause();
+    if (musicBtn) musicBtn.textContent = "▶";
+  }
 }
 
+// =========================================================
+// COUNTDOWN
+// =========================================================
 function updateCountdown() {
   const t = new Date(WEDDING_CONFIG.eventDate).getTime();
   const d = t - Date.now();
-  if (d<=0) return setCD(0,0,0,0);
+  if (d <= 0) return setCD(0,0,0,0);
   setCD(
     Math.floor(d/(1000*60*60*24)),
     Math.floor((d%(1000*60*60*24))/(1000*60*60)),
@@ -105,111 +140,68 @@ function escapeHTML(v) {
 }
 
 // =========================================================
-// AMBIL DATA — UTAMAKAN LOKAL, SHEETDB SEBAGAI TAMBAHAN
+// ✅ AMBIL DATA — DARI KODE + DATA BARU DARI TAMU
 // =========================================================
-async function getWishes() {
-  const local = getFromLocal();
-  try {
-    const res = await fetch(WEDDING_CONFIG.sheetDB);
-    if (res.ok) {
-      const data = await res.json();
-      if (Array.isArray(data) && data.length > 0) {
-        saveToLocal(data);
-        return data;
-      }
-    }
-  } catch (e) {
-    console.log("SheetDB tidak bisa diakses, pakai data lokal");
-  }
-  return local || [];
+function getWishes() {
+  const saved = JSON.parse(localStorage.getItem("newWishes") || "[]");
+  return [...LOCAL_WISHES, ...saved];
 }
 
 // =========================================================
-// KIRIM DATA — DISIMPAN LOKAL DULU, DIKIRIM NANTI
+// ✅ KIRIM UCAPAN — DISIMPAN DI HP TAMU
 // =========================================================
-let pendingQueue = JSON.parse(localStorage.getItem("pendingQueue") || "[]");
-
-async function sendWish(e) {
+function sendWish(e) {
   e.preventDefault();
   const form = e.target;
+  
   const name = (document.getElementById("wishName")?.value||"").trim();
   const msg = (document.getElementById("wishMessage")?.value||"").trim();
   const attend = document.querySelector('input[name="attendance"]:checked')?.value||"";
 
   if (!name) return alert("Nama harus diisi");
-  if (!attend) return alert("Pilih kehadiran");
+  if (!attend) return alert("Pilih konfirmasi kehadiran");
   if (!msg) return alert("Ucapan harus diisi");
 
   const btn = form.querySelector('button[type="submit"]');
-  if (btn) { btn.disabled=true; btn.textContent="MENYIMPAN..."; }
+  if (btn) { btn.disabled = true; btn.textContent = "MENYIMPAN..."; }
 
-  const data = {
+  const newWish = {
     "Timestamp": new Date().toLocaleString("id-ID"),
     "Nama": name,
     "Konfirmasi Kehadiran ": attend,
     "Ucapan ": msg
   };
 
-  // Simpan ke antrian lokal
-  pendingQueue.push(data);
-  localStorage.setItem("pendingQueue", JSON.stringify(pendingQueue));
-  
-  // Tambah langsung ke tampilan biar kelihatan
-  const allData = getFromLocal() || [];
-  allData.push(data);
-  saveToLocal(allData);
-  
+  const saved = JSON.parse(localStorage.getItem("newWishes") || "[]");
+  saved.push(newWish);
+  localStorage.setItem("newWishes", JSON.stringify(saved));
+
   alert("✅ Terima kasih! Ucapan tersimpan ❤️");
   form.reset();
   tampilkanUcapan();
 
-  // Coba kirim ke SheetDB di belakang layar
-  trySendPending();
-
-  if (btn) { btn.disabled=false; btn.textContent="KIRIM UCAPAN"; }
-}
-
-// Kirim antrian kalau bisa
-async function trySendPending() {
-  if (pendingQueue.length === 0) return;
-  try {
-    for (let i=0; i<pendingQueue.length; i++) {
-      await fetch(WEDDING_CONFIG.sheetDB, {
-        method: "POST",
-        headers: {"Content-Type":"application/json"},
-        body: JSON.stringify({data: pendingQueue[i]})
-      });
-    }
-    pendingQueue = [];
-    localStorage.setItem("pendingQueue", "[]");
-    // Refresh data dari SheetDB kalau berhasil
-    await getWishes();
-    tampilkanUcapan();
-  } catch (e) {
-    console.log("Masih belum bisa kirim, nanti otomatis dicoba lagi");
-  }
+  if (btn) { btn.disabled = false; btn.textContent = "KIRIM UCAPAN"; }
 }
 
 // =========================================================
-// TAMPILKAN UCAPAN
+// ✅ TAMPILKAN UCAPAN
 // =========================================================
 let showAll = false;
-let loading = false;
 
-async function tampilkanUcapan() {
+function tampilkanUcapan() {
   const list = document.getElementById("wishList");
-  if (!list || loading) return;
-  loading = true; list.innerHTML = "";
+  if (!list) return;
+  list.innerHTML = "";
 
-  const wishes = await getWishes();
+  const wishes = getWishes();
 
   if (wishes.length === 0) {
     list.innerHTML = `<div class="empty-wish">Belum ada ucapan 🤍</div>`;
-    loading = false; return;
+    return;
   }
 
   const reversed = [...wishes].reverse();
-  const displayed = showAll ? reversed : reversed.slice(0,3);
+  const displayed = showAll ? reversed : reversed.slice(0, 3);
 
   displayed.forEach(w => {
     const item = document.createElement("div");
@@ -223,26 +215,34 @@ async function tampilkanUcapan() {
     list.appendChild(item);
   });
 
-  if (reversed.length>3) {
+  if (reversed.length > 3) {
     const btn = document.createElement("button");
-    btn.className="show-wishes-btn";
-    btn.textContent = showAll ? "Sembunyikan" : "Lihat Semua Ucapan";
-    btn.onclick = () => { showAll=!showAll; tampilkanUcapan(); };
+    btn.className = "show-wishes-btn";
+    btn.textContent = showAll ? "Sembunyikan Ucapan" : "Lihat Semua Ucapan";
+    btn.onclick = () => { showAll = !showAll; tampilkanUcapan(); };
     list.appendChild(btn);
   }
-  loading = false;
 }
 
+// =========================================================
+// SALIN REKENING
+// =========================================================
 function copyAccount() {
   const el = document.getElementById("accountNumber");
   if (!el) return;
   if (navigator.clipboard) {
-    navigator.clipboard.writeText(el.textContent.trim()).then(()=>alert("✅ Disalin!"));
-  } else alert("❌ Browser tidak mendukung");
+    navigator.clipboard.writeText(el.textContent.trim())
+      .then(() => alert("✅ Nomor rekening disalin!"))
+      .catch(() => alert("❌ Gagal menyalin"));
+  } else {
+    alert("❌ Browser tidak mendukung");
+  }
 }
 
+// =========================================================
+// JALANKAN
+// =========================================================
 document.addEventListener("DOMContentLoaded", () => {
   showGuestName();
   if (document.getElementById("wishList")) tampilkanUcapan();
-  trySendPending(); // Coba kirim antrian lama
 });
